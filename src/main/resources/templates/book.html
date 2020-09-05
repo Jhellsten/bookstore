@@ -34,6 +34,9 @@
                 <th>
                    ISBN 
                 </th>
+                <th>
+                    
+                </th>
             </tr>
         
         <tr th:each="book : ${books}">
@@ -41,6 +44,7 @@
             <td th:text="${book.title}"></td>
             <td th:text="${book.year}"></td>
             <td th:text="${book.isbn}"></td>
+            <td> <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
           </tr>
         </tbody>
         
