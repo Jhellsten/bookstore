@@ -2,25 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <style>
-        tr {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 20px;
-        }
-        td th {
-            padding: 10px;
-            margin: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <title>Bookstore</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body style="margin: 20px">
     <h1 style="font-size: 50px">Books</h1>
-    <table  style="display: flex; justify-items: flex-start;  ">
-        <tbody style="min-width: 80%;">
+    <table class="table table-striped" >
+        <tbody>
             <tr>
                 <th>
                     Author
@@ -37,6 +26,9 @@
                 <th>
                     
                 </th>
+                <th>
+                    
+                </th>
             </tr>
         
         <tr th:each="book : ${books}">
@@ -44,10 +36,12 @@
             <td th:text="${book.title}"></td>
             <td th:text="${book.year}"></td>
             <td th:text="${book.isbn}"></td>
-            <td> <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
+            <td> <button th:onclick="'window.location.href=\'/edit/' + ${book.id} + '\''" class="btn btn-warning">Edit <a ></a></button></td>
+            <td> <button th:onclick="'window.location.href=\'/delete/' + ${book.id} + '\''" class="btn btn-danger">Delete</button></td>
           </tr>
         </tbody>
         
     </table>
+    <button class="btn btn-success" th:onclick="'window.location.href=\'/newbook' + '\''" >Add new Book</button>
 </body>
 </html>
