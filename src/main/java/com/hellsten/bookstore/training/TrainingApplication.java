@@ -21,8 +21,8 @@ public class TrainingApplication implements CommandLineRunner {
 	public void run(String... args) {
 		repository.deleteAll();
 
-        repository.save(new Book("A Farewell to Arms", "Ernest Hemingway", 1929,"122323233232-2",  10.00));
-        repository.save(new Book("Animal Farm", "George Orwell", 1945, "22123322-3", 100.00));
+        repository.save(new Book("A Farewell to Arms", "Ernest Hemingway", 1929,"122323233232-2"));
+        repository.save(new Book("Animal Farm", "George Orwell", 1945, "22123322-3"));
 	}
 
 
