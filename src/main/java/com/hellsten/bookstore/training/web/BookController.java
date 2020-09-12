@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hellsten.bookstore.training.domain.Book;
 import com.hellsten.bookstore.training.domain.BookRepo;
-import com.hellsten.bookstore.training.domain.Category;
 import com.hellsten.bookstore.training.domain.CategoryRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class BookController {
@@ -23,6 +23,12 @@ public class BookController {
     private BookRepo books;
     @Autowired
     private CategoryRepo categories;
+
+    // REST API for all books
+    @RequestMapping(value="/books", method = RequestMethod.GET)
+        public @ResponseBody List<Book> studentListRest() {
+        return (List<Book>) books.findAll();
+    }
     
     // Get all books
     @GetMapping("/booklist")
@@ -33,6 +39,12 @@ public class BookController {
             System.out.println(book);
         }
         return "book";
+    }
+
+    // REST API for delete book
+    @RequestMapping(value="/books/{id}", method = RequestMethod.DELETE)
+        public @ResponseBody String deleteBookById() {
+        return "deleted";
     }
 
     // Delete book by id
@@ -49,6 +61,12 @@ public class BookController {
     model.addAttribute("categories", categories.findAll());
     return "addbook";
     }   
+
+    // REST API for get book by id
+    @RequestMapping(value="/books/{id}", method = RequestMethod.GET)
+    public @ResponseBody Book getBookById(@PathVariable("id") Long bookId) {
+        return books.findById(bookId).orElse(null);
+    }
 
     // Edit existing book
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
