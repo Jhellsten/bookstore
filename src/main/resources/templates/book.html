@@ -24,6 +24,9 @@
                    ISBN 
                 </th>
                 <th>
+                   Category 
+                </th>
+                <th>
                     
                 </th>
                 <th>
@@ -36,6 +39,7 @@
             <td th:text="${book.title}"></td>
             <td th:text="${book.year}"></td>
             <td th:text="${book.isbn}"></td>
+            <td th:text="${book.category.name}"></td>
             <td> <button th:onclick="'window.location.href=\'/edit/' + ${book.id} + '\''" class="btn btn-warning">Edit <a ></a></button></td>
             <td> <button th:onclick="'window.location.href=\'/delete/' + ${book.id} + '\''" class="btn btn-danger">Delete</button></td>
           </tr>

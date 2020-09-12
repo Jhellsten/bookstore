@@ -11,7 +11,11 @@
     	<p>Author: <input type="text" th:field="*{author}" /></p>
     	<p>Title: <input type="text" th:field="*{title}" /></p>
     	<p>Year: <input type="number" th:field="*{year}" placeholder="Insert year" /></p>
-    	<p>ISBN: <input type="text" th:field="*{isbn}" /></p>
+        <p>ISBN: <input type="text" th:field="*{isbn}" /></p>
+        <label for="categories">Category</label>
+			 <select id="categories" th:field="*{category}" class="form-control">
+       			<option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+    		</select>
     	<input type="hidden" th:field="*{id}" />
         <p><input type="submit" value="Submit" /> 
     </form>
