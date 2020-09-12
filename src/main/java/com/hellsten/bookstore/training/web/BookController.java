@@ -68,6 +68,12 @@ public class BookController {
         return books.findById(bookId).orElse(null);
     }
 
+    // // REST API for get book by id
+    // @RequestMapping(value="/books/search", method = RequestMethod.GET)
+    // public @ResponseBody Book getBookByQuery() {
+    //     return books.findByTitle();
+    // }
+
     // Edit existing book
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editBook(@PathVariable("id") Long bookId, Model model) {
