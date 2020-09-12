@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.hellsten.bookstore.training.domain.Book;
 import com.hellsten.bookstore.training.domain.BookRepo;
+import com.hellsten.bookstore.training.domain.Category;
+import com.hellsten.bookstore.training.domain.CategoryRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,39 +20,49 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class BookController {
 
     @Autowired
-    private BookRepo repository;
-
+    private BookRepo books;
+    @Autowired
+    private CategoryRepo categories;
+    
+    // Get all books
     @GetMapping("/booklist")
     public String getFriends(Model model) {
-        List<Book> books = repository.findAll();
-        model.addAttribute("books", books);
-        for (Book book : books) {
+        List<Book> allBooks = books.findAll();
+        model.addAttribute("books", allBooks);
+        for (Book book : allBooks) {
             System.out.println(book);
         }
         return "book";
     }
+
+    // Delete book by id
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteBook(@PathVariable("id") Long bookId, Model model) {
-    repository.deleteById(bookId);
+    books.deleteById(bookId);
     return "redirect:../booklist";
     }   
 
+    // Get values for new book
     @RequestMapping(value = "/newbook", method = RequestMethod.GET)
     public String newBook(Model model) {
     model.addAttribute("book", new Book());
+    model.addAttribute("categories", categories.findAll());
     return "addbook";
     }   
 
+    // Edit existing book
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editBook(@PathVariable("id") Long bookId, Model model) {
-    model.addAttribute("book", repository.findById(bookId));
+    model.addAttribute("book", books.findById(bookId));
+    model.addAttribute("categories", categories.findAll());
     return "editbook";
     }   
 
+    // Save new book
     @RequestMapping(value = "/newbook", method = RequestMethod.POST)
     public String saveBook(@ModelAttribute Book book, Model model) {
     System.out.println(book);
-        repository.save(book);
+        books.save(book);
     return "redirect:booklist";
     }   
  
