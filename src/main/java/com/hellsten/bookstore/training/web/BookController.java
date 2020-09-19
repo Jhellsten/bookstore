@@ -2,16 +2,19 @@ package com.hellsten.bookstore.training.web;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.hellsten.bookstore.training.domain.Book;
 import com.hellsten.bookstore.training.domain.BookRepo;
 import com.hellsten.bookstore.training.domain.CategoryRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -68,11 +71,31 @@ public class BookController {
         return books.findById(bookId).orElse(null);
     }
 
-    // // REST API for get book by id
-    // @RequestMapping(value="/books/search", method = RequestMethod.GET)
-    // public @ResponseBody Book getBookByQuery() {
-    //     return books.findByTitle();
-    // }
+    // REST API for Save new book
+    @JsonBackReference(value = "category")
+    @RequestMapping(value="/books",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    Book saveApiBook(@RequestBody Book book) {
+    return books.save(book);
+    }   
+
+    // REST API for edit existing book
+    @JsonBackReference(value = "category")
+    @RequestMapping(value="/books/{id}",method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    Book saveApiBook(@RequestBody Book book, @PathVariable("id") Long bookId) {
+        return books.findById(bookId)
+        .map(existingBook -> {
+        existingBook.setAuthor(book.getAuthor());;
+        existingBook.setTitle(book.getTitle());;
+        existingBook.setYear(book.getYear());;
+        existingBook.setIsbn(book.getIsbn());;
+        existingBook.setCategory(book.getCategory());;
+        return books.save(existingBook);
+      })
+      .orElseGet(() -> {
+        book.setId(bookId);
+        return books.save(book);
+      });
+    }   
 
     // Edit existing book
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
