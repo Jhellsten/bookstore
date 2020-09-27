@@ -9,6 +9,7 @@ import com.hellsten.bookstore.training.domain.CategoryRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +53,7 @@ public class BookController {
 
     // Delete book by id
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteBook(@PathVariable("id") Long bookId, Model model) {
     books.deleteById(bookId);
     return "redirect:../booklist";
@@ -74,6 +76,7 @@ public class BookController {
     // REST API for Save new book
     @JsonBackReference(value = "category")
     @RequestMapping(value="/books",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
     Book saveApiBook(@RequestBody Book book) {
     return books.save(book);
     }   
@@ -81,6 +84,7 @@ public class BookController {
     // REST API for edit existing book
     @JsonBackReference(value = "category")
     @RequestMapping(value="/books/{id}",method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
     Book saveApiBook(@RequestBody Book book, @PathVariable("id") Long bookId) {
         return books.findById(bookId)
         .map(existingBook -> {
@@ -107,6 +111,7 @@ public class BookController {
 
     // Save new book
     @RequestMapping(value = "/newbook", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ADMIN')")
     public String saveBook(@ModelAttribute Book book, Model model) {
     System.out.println(book);
         books.save(book);
