@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <title>Bookstore</title>
@@ -26,10 +25,10 @@
                 <th>
                    Category 
                 </th>
-                <th>
+                <th sec:authorize="hasRole('ADMIN')">
                     
                 </th>
-                <th>
+                <th sec:authorize="hasRole('ADMIN')">
                     
                 </th>
             </tr>
@@ -40,12 +39,12 @@
             <td th:text="${book.year}"></td>
             <td th:text="${book.isbn}"></td>
             <td th:text="${book.category.name}"></td>
-            <td> <button th:onclick="'window.location.href=\'/edit/' + ${book.id} + '\''" class="btn btn-warning">Edit <a ></a></button></td>
-            <td> <button th:onclick="'window.location.href=\'/delete/' + ${book.id} + '\''" class="btn btn-danger">Delete</button></td>
+            <td sec:authorize="hasRole('ADMIN')"> <button th:onclick="'window.location.href=\'/edit/' + ${book.id} + '\''" class="btn btn-warning">Edit <a ></a></button></td>
+            <td sec:authorize="hasRole('ADMIN')"> <button th:onclick="'window.location.href=\'/delete/' + ${book.id} + '\''" class="btn btn-danger">Delete</button></td>
           </tr>
         </tbody>
         
     </table>
-    <button class="btn btn-success" th:onclick="'window.location.href=\'/newbook' + '\''" >Add new Book</button>
+    <button sec:authorize="hasRole('ADMIN')" class="btn btn-success" th:onclick="'window.location.href=\'/newbook' + '\''" >Add new Book</button>
 </body>
 </html>
