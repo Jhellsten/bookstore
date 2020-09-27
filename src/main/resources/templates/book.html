@@ -6,7 +6,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body style="margin: 20px">
-    <h1 style="font-size: 50px">Books</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1 style="font-size: 50px">Books</h1>
+        <h3 th:inline="text">You are logged in as [[${#httpServletRequest.remoteUser}]]!</h3>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout"/>
+        </form>     
+    </div>
+    
     <table class="table table-striped" >
         <tbody>
             <tr>
